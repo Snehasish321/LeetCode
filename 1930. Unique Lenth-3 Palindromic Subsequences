@@ -1,0 +1,29 @@
+class Solution {
+    #define pii pair<int, int>
+public:
+    int countPalindromicSubsequence(string s) {
+        int n = s.size();
+        unordered_map<char, pii> first_last;
+
+        // Record the first and last occurrence of each character
+        for (int i = 0; i < n; ++i) {
+            if (first_last.count(s[i])) {
+                first_last[s[i]].second = i; // Update the last occurrence
+            } else {
+                first_last[s[i]] = {i, i}; // Initialize with first and last as the same
+            }
+        }
+
+        int count = 0;
+
+        // Count distinct characters between the first and last occurrence of each character
+        for (auto [c, se] : first_last) {
+            int first = se.first, last = se.second;
+            if (first == last) continue; // Skip if there's no range between first and last
+            unordered_set<char> unique_chars(s.begin() + first + 1, s.begin() + last);
+            count += unique_chars.size();
+        }
+
+        return count;
+    }
+};
