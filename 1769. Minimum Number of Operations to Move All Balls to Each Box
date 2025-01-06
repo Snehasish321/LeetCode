@@ -1,0 +1,38 @@
+class Solution {
+public:
+    vector<int> minOperations(string boxes) {
+        int n = boxes.size();
+        
+        // Calculate total "right" sum and initial "sum"
+        int sum = 0;  // Cumulative moves needed from the right side
+        int right = 0; // Count of '1's to the right of the current box
+        for (int i = 0; i < n; ++i) {
+            if (boxes[i] == '1') {
+                sum += i;
+                right++;
+            }
+        }
+        
+        vector<int> response(n);
+        int prefix_sum = 0; // Cumulative moves needed from the left side
+        int left = 0;       // Count of '1's to the left of the current box
+        
+        for (int i = 0; i < n; ++i) {
+            // Total moves = moves from the left + moves from the right
+            response[i] = sum + prefix_sum;
+            
+            // Update prefix_sum, sum, left, and right
+            if (boxes[i] == '1') {
+                left++;
+                right--;
+            }
+            prefix_sum += left;
+            sum -= right;
+        }
+        
+        return response;
+    }
+};
+
+
+Time complexity of this solution is O(N) and space complexity is also O(N) .... Signing out Unreal Arnab .... 
